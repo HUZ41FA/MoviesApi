@@ -1,0 +1,73 @@
+# Ignore Visual Studio files
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore build outputs
+bin/
+obj/
+[Bb]uild/
+[Bb]uild[Ll]og.*
+
+# Ignore Rider-specific files
+.idea/
+*.sln.iml
+
+# Ignore ASP.NET secrets folder
+**/secrets.json
+
+# Ignore user-specific files
+*.userprefs
+*.csproj.user
+
+# Ignore logs
+*.log
+
+# Ignore dotnet-specific stuff
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# Ignore npm & node modules (if using React/Angular frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+wwwroot/lib/
+
+# Ignore temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~ 
+
+# Ignore coverage/test results
+TestResults/
+*.coverage
+*.coveragexml
+*.testsettings
+*.vsmdi
+*.vsp
+*.vspx
+*.sap
+
+# Ignore Resharper & Rider caches
+_ReSharper*/
+*.DotSettings.user
+.idea/
+
+# Ignore environment config
+.env
+.env.*
+
+# Ignore localdb/migration generated files (optional)
+*.mdf
+*.ldf
+*.db
+
+# Optional: Ignore Docker-generated files (if any)
+*.pid
+docker-compose.override.yml
