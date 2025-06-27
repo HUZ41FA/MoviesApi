@@ -13,7 +13,7 @@ namespace Movies.Application.Models
         public required string Title { get; init; }
         public string Slug => GenerateSlug();
         public required int YearOfRelease { get; init; }
-        public required List<string> Generes { get; init; } = new();
+        public required List<string> Genres { get; init; } = new();
 
         private string GenerateSlug()
         {
