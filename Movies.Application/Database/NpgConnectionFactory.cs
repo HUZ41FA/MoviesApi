@@ -16,7 +16,7 @@ namespace Movies.Application.Database
             _connectionString = connectionString;
         }
 
-        public async Task<IDbConnection> CreateConnection()
+        public async Task<IDbConnection> CreateConnectionAsync()
         {
             var connection = new Npgsql.NpgsqlConnection(_connectionString);
             await connection.OpenAsync();

@@ -13,7 +13,7 @@ namespace Movies.Application.Database
 
         public async Task InitializeAsync()
         {
-            var connection = await _connectionFactory.CreateConnection();
+            var connection = await _connectionFactory.CreateConnectionAsync();
 
             await connection.ExecuteAsync(@"
                 CREATE TABLE IF NOT EXISTS movies (
@@ -24,9 +24,15 @@ namespace Movies.Application.Database
                 ");
 
             await connection.ExecuteAsync(@"
-                CREATE UNIQUE INDEX CONCURRENTLY idx_movies_slug
+                CREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS idx_movies_slug
                 ON movies USING btree(Slug);
             ");
+
+            await connection.ExecuteAsync(@"
+                CREATE TABLE IF NOT EXISTS genres (
+                    movieId UUID references movies (Id),
+                    name text NOT NULL)
+                ");
         }
     }
 }
