@@ -34,6 +34,7 @@ namespace Movies.Api.Mappings
             {
                 Id = movie.Id,
                 Title = movie.Title,
+                Slug = movie.Slug,
                 YearOfRelease = movie.YearOfRelease,
                 Genres = movie.Generes
             };

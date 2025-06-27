@@ -39,7 +39,16 @@ namespace Movies.Application.Repositories
 
             return Task.FromResult<Movie?>(movie);
         }
+        public Task<Movie?> GetBySlugAsync(string slug)
+        {
+            var movie = _movies.FirstOrDefault(m => m.Slug == slug);
+            if (movie == null)
+            {
+                return Task.FromResult<Movie?>(null);
+            }
 
+            return Task.FromResult<Movie?>(movie);
+        }
         public Task<bool> UpdateByIdAsync(Movie movie)
         {
             var movieIndex = _movies.FindIndex(m => m.Id == movie.Id);
