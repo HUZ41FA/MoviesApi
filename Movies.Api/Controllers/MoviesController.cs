@@ -64,7 +64,7 @@ namespace Movies.Api.Controllers
             return Ok(response);
         }
 
-        [HttpPut(ApiEndpoints.Movies.Delete)]
+        [HttpDelete(ApiEndpoints.Movies.Delete)]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var deleted = await _movieRepository.DeleteByIdAsync(id);
