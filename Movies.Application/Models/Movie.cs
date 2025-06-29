@@ -14,7 +14,8 @@ namespace Movies.Application.Models
         public string Slug => GenerateSlug();
         public required int YearOfRelease { get; init; }
         public required List<string> Genres { get; init; } = new();
-
+        public float? Rating { get; set; }
+        public int? UserRating { get; set; }
         private string GenerateSlug()
         {
             var titleSlug = Regex.Replace(Title, "[^0-9A-Za-z _-]", string.Empty)

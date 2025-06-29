@@ -1,6 +1,6 @@
-﻿namespace Movies.Api
+﻿namespace Movies.Api.Auth
 {
-    public class AuthConstants
+    public static class AuthConstants
     {
         public const string AdminPolicyName = "AllowAdmin";
         public const string AdminUserClaimName = "admin";

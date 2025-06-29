@@ -18,7 +18,7 @@ namespace Movies.Application.Repositories
             _connectionFactory = connectionFactory;
         }
 
-        public async Task<bool> CreateAsync(Movie movie, CancellationToken token = default)
+        public async Task<bool> CreateAsync(Movie movie, Guid? userId = default, CancellationToken token = default)
         {
             var connection = await _connectionFactory.CreateConnectionAsync(token);
             var transaction = connection.BeginTransaction();
@@ -69,7 +69,7 @@ namespace Movies.Application.Repositories
                 """, new { id }, cancellationToken: token));
         }
 
-        public async Task<IEnumerable<Movie>> GetAllAsync(CancellationToken token = default)
+        public async Task<IEnumerable<Movie>> GetAllAsync(Guid? userId = default, CancellationToken token = default)
         {
             using var connection = await _connectionFactory.CreateConnectionAsync(token);
 
@@ -89,7 +89,7 @@ namespace Movies.Application.Repositories
             });
         }
 
-        public async Task<Movie?> GetByIdAsync(Guid id, CancellationToken token = default)
+        public async Task<Movie?> GetByIdAsync(Guid id, Guid? userId = default, CancellationToken token = default)
         {
             var connection = await _connectionFactory.CreateConnectionAsync(token);
 
@@ -114,7 +114,7 @@ namespace Movies.Application.Repositories
             return movie;
         }
 
-        public async Task<Movie?> GetBySlugAsync(string slug, CancellationToken token = default)
+        public async Task<Movie?> GetBySlugAsync(string slug, Guid? userId = default, CancellationToken token = default)
         {
             var connection = await _connectionFactory.CreateConnectionAsync(token);
 

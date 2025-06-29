@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using System.Data.Common;
 
 namespace Movies.Application.Database
 {
@@ -32,7 +33,16 @@ namespace Movies.Application.Database
                 CREATE TABLE IF NOT EXISTS genres (
                     movieId UUID references movies (Id),
                     name text NOT NULL)
-                ");
+                "
+            );
+
+            await connection.ExecuteAsync(@"
+            create table if not exists ratings (
+                userid uuid,
+                movieid uuid references movies(id),
+                rating integer not null,
+                primary key (userid, movieid)
+            );");
         }
     }
 }
