@@ -11,7 +11,7 @@ namespace Identity.Api.Controllers
     public class IdentityController : ControllerBase
     {
         // WARNING: Please store and load this token securely
-        private const string TokenSecret = "PleaseStoreAndLoadThisSecurely";
+        private const string TokenSecret = "IRequestYouToPleaseStoreAndLoadThisSecurely";
         private static readonly TimeSpan TokenLifetime = TimeSpan.FromHours(8);
 
         [HttpPost("token")]
