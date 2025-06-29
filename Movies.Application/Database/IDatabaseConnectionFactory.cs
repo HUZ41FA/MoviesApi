@@ -9,6 +9,6 @@ namespace Movies.Application.Database
 {
     public interface IDatabaseConnectionFactory
     {
-        Task<IDbConnection> CreateConnectionAsync();
+        Task<IDbConnection> CreateConnectionAsync(CancellationToken token = default);
     }
 }
