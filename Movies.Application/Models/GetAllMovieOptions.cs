@@ -13,6 +13,8 @@ namespace Movies.Application.Models
         public Guid? UserId { get; set; }
         public string? SortField { get; set; }
         public SortOrder SortOrder { get; set; } = SortOrder.None;
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
     }
 
     public enum SortOrder

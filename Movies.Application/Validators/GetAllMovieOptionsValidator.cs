@@ -24,6 +24,13 @@ namespace Movies.Application.Validators
             RuleFor(x => x.SortField)
                 .Must(x => x is null || AcceptableSortValues.Contains(x.ToLowerInvariant()))
                 .WithMessage($"Sort field must be one of the following: {string.Join(", ", AcceptableSortValues)}.");
+
+            RuleFor(x => x.PageSize)
+                .InclusiveBetween(1, 25)
+                .WithMessage("You can only get between 1 and 25 movies per page");
+
+            RuleFor(x => x.PageNumber)
+                .GreaterThanOrEqualTo(1);
         }
     }
 }

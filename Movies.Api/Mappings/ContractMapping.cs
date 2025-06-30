@@ -42,11 +42,14 @@ namespace Movies.Api.Mappings
             };
         }
 
-        public static MoviesResponse MapToResponse(this IEnumerable<Movie> movies) 
+        public static MoviesResponse MapToResponse(this IEnumerable<Movie> movies, int pageNumber, int pageSize, int totalCount) 
         {
             return new MoviesResponse
             {
-                Items = movies.Select(m => m.MapToResponse()).ToList()
+                Items = movies.Select(m => m.MapToResponse()).ToList(),
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                TotalCount = totalCount
             };
         }
 
@@ -68,7 +71,9 @@ namespace Movies.Api.Mappings
                 YearOfRelease = request.YearOfRelease,
                 SortField = request.SortBy?.Trim('+', '-'),
                 SortOrder = request.SortBy is null ? SortOrder.None :
-                    request.SortBy.StartsWith('+') ? SortOrder.Ascending : SortOrder.Descending
+                    request.SortBy.StartsWith('+') ? SortOrder.Ascending : SortOrder.Descending,
+                PageNumber = request.PageNumber,
+                PageSize = request.PageSize
             };
         }
 

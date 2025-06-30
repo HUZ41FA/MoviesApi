@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Movies.Contract.Requests
 {
-    public class GetAllMovieRequest
+    public class GetAllMovieRequest : PagedRequest
     {
         public required string? Title { get; init; }
         public required int? YearOfRelease { get; init; }
