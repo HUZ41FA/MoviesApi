@@ -13,16 +13,18 @@ namespace Movies.Application.Services
     {
         private readonly IMovieRepository _movieRepository;
         private readonly IValidator<Movie> _movieValidator;
-        public MovieService(IMovieRepository movieRepository, IValidator<Movie> movieValidator)
+        private readonly IValidator<GetAllMovieOptions> _movieOptionsValidator;
+        public MovieService(IMovieRepository movieRepository, IValidator<Movie> movieValidator, IValidator<GetAllMovieOptions> movieOptionsValidator)
         {
             _movieRepository = movieRepository;
             _movieValidator = movieValidator;
+            _movieOptionsValidator = movieOptionsValidator;
         }   
 
-        public async Task<bool> CreateAsync(Movie movie, Guid? userId = default, CancellationToken token = default)
+        public async Task<bool> CreateAsync(Movie movie, CancellationToken token = default)
         {
             await _movieValidator.ValidateAndThrowAsync(movie, token);
-            return await _movieRepository.CreateAsync(movie, userId, token);
+            return await _movieRepository.CreateAsync(movie, token);
         }
 
         public Task<bool> DeleteByIdAsync(Guid id, CancellationToken token = default)
@@ -30,9 +32,10 @@ namespace Movies.Application.Services
             return _movieRepository.DeleteByIdAsync(id, token);  
         }
 
-        public Task<IEnumerable<Movie>> GetAllAsync(Guid? userId = default, CancellationToken token = default)
+        public async Task<IEnumerable<Movie>> GetAllAsync(GetAllMovieOptions options, CancellationToken token = default)
         {
-            return  _movieRepository.GetAllAsync(userId, token);
+            await _movieOptionsValidator.ValidateAndThrowAsync(options, token);
+            return  await _movieRepository.GetAllAsync(options, token);
         }
 
         public Task<Movie?> GetByIdAsync(Guid id, Guid? userId = default, CancellationToken token = default)
@@ -55,7 +58,7 @@ namespace Movies.Application.Services
                 return null;
             }
 
-            await _movieRepository.UpdateByIdAsync(movie, token);
+            await _movieRepository.UpdateAsync(movie, token);
 
             return movie;
         }

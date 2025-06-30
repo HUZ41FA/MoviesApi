@@ -25,7 +25,7 @@ namespace Movies.Api.Controllers
         {
             var userId = HttpContext.GetUserId();
             var movie = request.MapToMovie();
-            await _movieService.CreateAsync(movie, userId, token);
+            await _movieService.CreateAsync(movie, token);
             return CreatedAtAction(nameof(Get), new { idORSlug = movie.Id}, movie.MapToResponse());
         }
 
@@ -48,10 +48,11 @@ namespace Movies.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet(ApiEndpoints.Movies.GetAll)]
-        public async Task<IActionResult> GetAll(CancellationToken token)
+        public async Task<IActionResult> GetAll([FromQuery] GetAllMovieRequest request, CancellationToken token)
         {
             var userId = HttpContext.GetUserId();
-            var movies = await _movieService.GetAllAsync(userId, token);
+            var getAllMovieOptions = request.ToMovieOptions().WithUser(userId);
+            var movies = await _movieService.GetAllAsync(getAllMovieOptions, token);
             var movieResponse = movies.MapToResponse();
             return Ok(movieResponse);
         }
