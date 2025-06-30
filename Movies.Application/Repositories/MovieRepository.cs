@@ -110,8 +110,19 @@ namespace Movies.Application.Repositories
         public async Task<IEnumerable<Movie>> GetAllAsync(GetAllMovieOptions options, CancellationToken token = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync(token);
+
+            // Concatenating and sql statement like that can lead to SQL injection attacks. (We are validating the options in the service layer, but it's still a good practice to be aware of this.)
+            var orderClause = string.Empty;
+
+            if (options.SortField is not null)
+            {
+                orderClause = $"""
+                    order by m.{options.SortField} {(options.SortOrder == SortOrder.Ascending ? "asc" : "desc")}
+                    """;
+            }
+
             var result = await connection.QueryAsync(new CommandDefinition(
-                """
+                $"""
                 select 
                     m.*,
                     string_agg(distinct g.name, ',') as genres,
@@ -124,7 +135,7 @@ namespace Movies.Application.Repositories
                     and myr.userid = @userId
                 where (@title is null or m.title like ('%' || @title || '%'))
                   and (@yearOfRelease is null or m.yearofrelease = @yearOfRelease)
-                group by id, userrating
+                group by id, userrating {orderClause}
                 """,
                 new
                 {
