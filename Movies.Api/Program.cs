@@ -62,7 +62,19 @@ builder.Services.AddApplication();
 
 builder.Services.AddDatabase(config["Database:ConnectionString"]);
 
-builder.Services.AddResponseCaching();
+//builder.Services.AddResponseCaching();
+
+builder.Services.AddOutputCache(x =>
+{
+    x.AddBasePolicy(c => c.Cache());
+    x.AddPolicy("MovieCache", c =>
+    {
+        c.Cache()
+        .Expire(TimeSpan.FromMinutes(1))
+        .SetVaryByQuery(new[] { "title", "yearOfRelease", "sortBy", "pageNumber", "pageSize" })
+        .Tag("movie");
+    });
+});
 
 builder.Services.AddControllers();
 
@@ -104,7 +116,9 @@ app.UseAuthorization();
 
 //app.UseCors();
 
-app.UseResponseCaching();
+//app.UseResponseCaching();
+
+app.UseOutputCache();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 
