@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Movies.Api.Auth;
+using Movies.Api.Health;
 using Movies.Api.Mappings;
 using Movies.Api.Swagger;
 using Movies.Application;
@@ -63,6 +64,8 @@ builder.Services.AddDatabase(config["Database:ConnectionString"]);
 
 builder.Services.AddControllers();
 
+builder.Services.AddHealthChecks().AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
+
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>,  ConfigureSwaggerOptions>();
@@ -89,6 +92,8 @@ await dbInitializer.InitializeAsync();
 // Configure the HTTP request pipeline.
 
 app.UseHttpsRedirection();
+
+app.UseHealthChecks("/_health");
 
 app.UseAuthentication();
 
