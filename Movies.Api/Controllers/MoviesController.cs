@@ -11,6 +11,7 @@ using Movies.Contract.Requests;
 namespace Movies.Api.Controllers
 {
     [ApiController]
+    [ApiVersion(1.0)]
     public class MoviesController : ControllerBase
     {
         private readonly IMovieService _movieService;
@@ -20,7 +21,7 @@ namespace Movies.Api.Controllers
             _movieService = movieService;
         }
 
-        [ApiVersion(1.0)]
+        [MapToApiVersion(1.0)]
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPost(ApiEndpoints.Movies.Create)]
         public async Task<IActionResult> Create([FromBody] CreateMovieRequest request, CancellationToken token)
@@ -31,7 +32,7 @@ namespace Movies.Api.Controllers
             return CreatedAtAction(nameof(Get), new { idORSlug = movie.Id}, movie.MapToResponse());
         }
 
-        [ApiVersion(1.0)]
+        [MapToApiVersion(1.0)]
         [AllowAnonymous]
         [HttpGet(ApiEndpoints.Movies.Get)]
         public async Task<IActionResult> Get([FromRoute] string idORSlug, CancellationToken token)
@@ -49,7 +50,7 @@ namespace Movies.Api.Controllers
             return Ok(movie.MapToResponse());
         }
 
-        [ApiVersion(1.0)]
+        [MapToApiVersion(1.0)]
         [AllowAnonymous]
         [HttpGet(ApiEndpoints.Movies.GetAll)]
         public async Task<IActionResult> GetAll([FromQuery] GetAllMovieRequest request, CancellationToken token)
@@ -62,7 +63,7 @@ namespace Movies.Api.Controllers
             return Ok(movieResponse);
         }
 
-        [ApiVersion(1.0)]
+        [MapToApiVersion(1.0)]
         [Authorize(AuthConstants.TrustedMemberPolicyName)]
         [HttpPut(ApiEndpoints.Movies.Update)]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateMovieRequest request, CancellationToken token)
@@ -82,7 +83,7 @@ namespace Movies.Api.Controllers
             return Ok(response);
         }
 
-        [ApiVersion(1.0)]
+        [MapToApiVersion(1.0)]
         [Authorize(AuthConstants.AdminPolicyName)]
         [HttpDelete(ApiEndpoints.Movies.Delete)]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken token)   
