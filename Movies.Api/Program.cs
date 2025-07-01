@@ -62,6 +62,8 @@ builder.Services.AddApplication();
 
 builder.Services.AddDatabase(config["Database:ConnectionString"]);
 
+builder.Services.AddResponseCaching();
+
 builder.Services.AddControllers();
 
 builder.Services.AddHealthChecks().AddCheck<DatabaseHealthCheck>(DatabaseHealthCheck.Name);
@@ -87,6 +89,7 @@ if (app.Environment.IsDevelopment())
 }
 
 var dbInitializer = app.Services.GetRequiredService<DatabaseInitializer>();
+
 await dbInitializer.InitializeAsync();
 
 // Configure the HTTP request pipeline.
@@ -98,6 +101,10 @@ app.UseHealthChecks("/_health");
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+//app.UseCors();
+
+app.UseResponseCaching();
 
 app.UseMiddleware<ValidationMappingMiddleware>();
 
