@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Movies.Api.Auth;
 using Movies.Api.Mappings;
@@ -16,6 +17,7 @@ namespace Movies.Api.Controllers
             _ratingService = ratingService;
         }
 
+        [ApiVersion(1.0)]
         [Authorize]
         [HttpPut(ApiEndpoints.Movies.Rate)]
         public async Task<IActionResult> RateMovie([FromRoute] Guid id,
@@ -26,6 +28,7 @@ namespace Movies.Api.Controllers
             return result ? Ok() : NotFound();
         }
 
+        [ApiVersion(1.0)]
         [Authorize]
         [HttpDelete(ApiEndpoints.Movies.DeleteRating)]
         public async Task<IActionResult> DeleteRating([FromRoute] Guid id,
@@ -36,6 +39,7 @@ namespace Movies.Api.Controllers
             return result ? Ok() : NotFound();
         }
 
+        [ApiVersion(1.0)]
         [Authorize]
         [HttpGet(ApiEndpoints.Ratings.GetUserRatings)]
         public async Task<IActionResult> GetUserRatings(CancellationToken token = default)
